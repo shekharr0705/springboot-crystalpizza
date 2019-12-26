@@ -7,13 +7,13 @@ import lombok.Setter;
 @Setter
 public class User {
 
-  private int Id;
+  private int id;
 
-  private String Name;
+  private String name;
 
-  private String EmailAddress;
+  private String emailAddress;
 
-  private String Address;
+  private String address;
 
-  private String Contact;
+  private String contact;
 }

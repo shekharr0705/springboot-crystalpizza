@@ -16,18 +16,18 @@ public class User {
 
   @javax.persistence.Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Integer Id;
+  private Integer id;
 
   @NotNull
-  private String Name;
+  private String name;
 
   @NotNull
-  private  String EmailAddress;
+  private  String emailAddress;
 
   @NotNull
-  private String Address;
+  private String address;
 
   @NotNull
-  private String Contact;
+  private String contact;
 
 }

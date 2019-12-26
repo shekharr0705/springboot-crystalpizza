@@ -1,6 +1,6 @@
 package com.crystalpizaa.api.controllers;
 
-import com.crystalpizaa.api.service.interfaces.UserService;
+import com.crystalpizaa.api.service.UserService;
 import com.crystalpizaa.api.service.models.core.User;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,27 +20,27 @@ public class UserController {
   UserService userService;
 
   @RequestMapping(name = "Get By Id",value = "/get/{id}", method = RequestMethod.GET)
-  public ResponseEntity<User> GetById(@PathVariable int id)
+  public ResponseEntity<User> getById(@PathVariable int id)
   {
-      return  new ResponseEntity<>(this.userService.GetById(id), HttpStatus.OK);
+      return  new ResponseEntity<>(this.userService.getById(id), HttpStatus.OK);
   }
 
   @RequestMapping(name = "Get all",value = "/get/all", method = RequestMethod.GET)
-  public ResponseEntity<List<User>> Get()
+  public ResponseEntity<List<User>> get()
   {
-    return  new ResponseEntity<>(this.userService.GetAll(), HttpStatus.OK);
+    return  new ResponseEntity<>(this.userService.getAll(), HttpStatus.OK);
   }
 
 
   @RequestMapping(name = "Save",value = "/save", method = RequestMethod.POST)
-  public ResponseEntity<User> Save(@RequestBody User user)
+  public ResponseEntity<User> save(@RequestBody User user)
   {
-    return  new ResponseEntity<>(this.userService.Save(user), HttpStatus.CREATED);
+    return  new ResponseEntity<>(this.userService.save(user), HttpStatus.CREATED);
   }
 
   @RequestMapping(name = "Delete",value = "/remove/{id}", method = RequestMethod.DELETE)
-  public ResponseEntity<Boolean> Remove(@PathVariable int id)
+  public ResponseEntity<Boolean> remove(@PathVariable int id)
   {
-    return  new ResponseEntity<>(this.userService.Remove(id), HttpStatus.OK);
+    return  new ResponseEntity<>(this.userService.remove(id), HttpStatus.OK);
   }
 }

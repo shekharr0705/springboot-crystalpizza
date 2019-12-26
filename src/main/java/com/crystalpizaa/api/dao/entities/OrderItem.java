@@ -15,12 +15,12 @@ public class OrderItem {
 
   @javax.persistence.Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private int Id;
+  private int id;
 
-  private int ComponentId;
+  private int componentId;
 
-  private ComponentType Type;
+  private ComponentType type;
 
-  private int Quantity;
+  private int quantity;
 
 }

@@ -6,23 +6,22 @@ import java.time.LocalDateTime;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.core.SpringVersion;
 
 @Getter
 @Setter
 public class OrderResponse {
 
-  private double Total;
+  private double total;
 
-  private Integer OrderId;
+  private Integer orderId;
 
-  private User CustomerDetails;
+  private User customerDetails;
 
-  private String DeliveryAddress;
+  private String deliveryAddress;
 
-  private List<PriceModel> Pizzas;
+  private List<PriceModel> pizzas;
 
-  private List<PriceModel> AddOns;
+  private List<PriceModel> addOns;
 
   public double getTotal() {
     double total = 0;
@@ -37,6 +36,6 @@ public class OrderResponse {
     return total;
   }
 
-  private LocalDateTime OrderDate;
+  private LocalDateTime orderDate;
 
 }

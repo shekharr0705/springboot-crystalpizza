@@ -7,41 +7,41 @@ import com.crystalpizaa.api.service.models.core.AddOnType;
 
 public class AddOnTranslator {
 
-  public static AddOn ToServiceModel(com.crystalpizaa.api.dao.entities.AddOn daoObj) {
+  public static AddOn toServiceModel(com.crystalpizaa.api.dao.entities.AddOn daoObj) {
     AddOn addOn = new AddOn();
     addOn.setId(daoObj.getId());
     addOn.setName(daoObj.getName());
     addOn.setDescription(daoObj.getDescription());
     addOn.setPrice(daoObj.getPrice());
-    addOn.setType(ToServiceModel(daoObj.getType()));
-    addOn.setSize(CommonTranslator.ToServiceModel(daoObj.getSize()));
+    addOn.setType(toServiceModel(daoObj.getType()));
+    addOn.setSize(CommonTranslator.toServiceModel(daoObj.getSize()));
 
     return addOn;
   }
 
-  public static List<AddOn> ToServiceModel(List<com.crystalpizaa.api.dao.entities.AddOn> daoObjs) {
+  public static List<AddOn> toServiceModel(List<com.crystalpizaa.api.dao.entities.AddOn> daoObjs) {
 
     List<AddOn> results = new ArrayList<AddOn>();
 
     for (com.crystalpizaa.api.dao.entities.AddOn daoObj : daoObjs) {
-      results.add(ToServiceModel(daoObj));
+      results.add(toServiceModel(daoObj));
     }
     return results;
   }
 
-  public static com.crystalpizaa.api.dao.entities.AddOn ToDaoModel(AddOn serviceObj) {
+  public static com.crystalpizaa.api.dao.entities.AddOn toDaoModel(AddOn serviceObj) {
     com.crystalpizaa.api.dao.entities.AddOn addOn = new com.crystalpizaa.api.dao.entities.AddOn();
     addOn.setId(serviceObj.getId());
     addOn.setName(serviceObj.getName());
     addOn.setDescription(serviceObj.getDescription());
     addOn.setPrice(serviceObj.getPrice());
-    addOn.setType(ToDaoModel(serviceObj.getType()));
-    addOn.setSize(CommonTranslator.ToDaoModel(serviceObj.getSize()));
+    addOn.setType(toDaoModel(serviceObj.getType()));
+    addOn.setSize(CommonTranslator.toDaoModel(serviceObj.getSize()));
     return addOn;
   }
 
 
-  private static AddOnType ToServiceModel(com.crystalpizaa.api.dao.entities.AddOnType daoObj) {
+  private static AddOnType toServiceModel(com.crystalpizaa.api.dao.entities.AddOnType daoObj) {
     switch (daoObj) {
       case Beverage:
         return AddOnType.Beverage;
@@ -51,7 +51,7 @@ public class AddOnTranslator {
     return AddOnType.Desert;
   }
 
-  private static com.crystalpizaa.api.dao.entities.AddOnType ToDaoModel(AddOnType serviceObj) {
+  private static com.crystalpizaa.api.dao.entities.AddOnType toDaoModel(AddOnType serviceObj) {
     switch (serviceObj) {
       case Beverage:
         return com.crystalpizaa.api.dao.entities.AddOnType.Beverage;

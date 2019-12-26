@@ -16,27 +16,27 @@ public class Pizza {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Getter
   @Setter
-  private int Id;
+  private int id;
 
   @NotNull
   @Getter
   @Setter
-  private String Name;
+  private String name;
 
   @Getter
   @Setter
-  private String Description;
+  private String description;
 
   @Getter
   @Setter
-  private double Price;
+  private double price;
 
   @Getter
   @Setter
-  private PizzaType Type;
+  private PizzaType type;
 
   @Getter
   @Setter
-  private Size Size;
+  private Size size;
 
 }

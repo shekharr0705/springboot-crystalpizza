@@ -1,7 +1,6 @@
-package com.crystalpizaa.api.service.implementations;
+package com.crystalpizaa.api.service;
 
 import com.crystalpizaa.api.dao.interfaces.AddOnRepository;
-import com.crystalpizaa.api.service.models.core.Pizza;
 import com.crystalpizaa.api.service.models.validation.ErrorInfo;
 import com.crystalpizaa.api.service.models.validation.ValidationException;
 import com.crystalpizaa.api.service.models.validation.ValidationInfo;
@@ -9,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.crystalpizaa.api.service.interfaces.AddOnService;
 import com.crystalpizaa.api.service.models.core.AddOn;
 import com.crystalpizaa.api.service.translators.AddOnTranslator;
 
@@ -20,31 +18,31 @@ public class AddOnServiceImpl implements AddOnService {
   private AddOnRepository addOnRepository;
 
   @Override
-  public AddOn Save(AddOn addOn) {
+  public AddOn save(AddOn addOn) {
 
     if (this.EnsureValid(addOn)) {
       com.crystalpizaa.api.dao.entities.AddOn addOnObj = this.addOnRepository
-          .save(AddOnTranslator.ToDaoModel(addOn));
-      return AddOnTranslator.ToServiceModel(addOnObj);
+          .save(AddOnTranslator.toDaoModel(addOn));
+      return AddOnTranslator.toServiceModel(addOnObj);
     }
 
     return null;
   }
 
   @Override
-  public List<AddOn> GetAll() {
+  public List<AddOn> getAll() {
     List<com.crystalpizaa.api.dao.entities.AddOn> addOns = this.addOnRepository.findAll();
-    return AddOnTranslator.ToServiceModel(addOns);
+    return AddOnTranslator.toServiceModel(addOns);
   }
 
   @Override
-  public AddOn Get(int id) {
+  public AddOn get(int id) {
     com.crystalpizaa.api.dao.entities.AddOn addOn = this.addOnRepository.getOne(id);
-    return AddOnTranslator.ToServiceModel(addOn);
+    return AddOnTranslator.toServiceModel(addOn);
   }
 
   @Override
-  public boolean Remove(int id) {
+  public boolean remove(int id) {
     this.addOnRepository.deleteById(id);
     return true;
   }

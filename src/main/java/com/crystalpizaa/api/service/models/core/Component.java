@@ -7,17 +7,17 @@ public class Component {
 
   @Getter
   @Setter
-  private int Id;
+  private int id;
 
   @Getter
   @Setter
-  private String Name;
+  private String name;
 
   @Getter
   @Setter
-  private String Description;
+  private String description;
 
   @Getter
   @Setter
-  private double Price;
+  private double price;
 }

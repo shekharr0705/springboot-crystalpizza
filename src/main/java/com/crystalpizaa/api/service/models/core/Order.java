@@ -8,9 +8,9 @@ public class Order {
 
   @Getter
   @Setter
-  private List<OrderItem> Pizzas;
+  private List<OrderItem> pizzas;
 
   @Getter
   @Setter
-  private List<OrderItem> AddOns;
+  private List<OrderItem> addOns;
 }

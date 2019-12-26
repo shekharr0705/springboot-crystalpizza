@@ -1,7 +1,6 @@
-package com.crystalpizaa.api.service.implementations;
+package com.crystalpizaa.api.service;
 
 import com.crystalpizaa.api.dao.interfaces.PizzaRepository;
-import com.crystalpizaa.api.service.interfaces.PizzaService;
 import com.crystalpizaa.api.service.models.core.Pizza;
 import com.crystalpizaa.api.service.models.validation.ErrorInfo;
 import com.crystalpizaa.api.service.models.validation.ValidationException;
@@ -19,7 +18,7 @@ public class PizzaServiceImpl implements PizzaService {
   private PizzaRepository pizzaRepository;
 
   @Override
-  public Pizza Save(Pizza pizza)  {
+  public Pizza save(Pizza pizza)  {
 
     if (EnsureValid(pizza)) {
       com.crystalpizaa.api.dao.entities.Pizza pizzaObj = PizzaTranslator.ToDaoModel(pizza);
@@ -32,7 +31,7 @@ public class PizzaServiceImpl implements PizzaService {
   }
 
   @Override
-  public List<Pizza> GetAll() {
+  public List<Pizza> getAll() {
 
     List<com.crystalpizaa.api.dao.entities.Pizza> pizzaObjs = this.pizzaRepository.findAll();
 
@@ -40,7 +39,7 @@ public class PizzaServiceImpl implements PizzaService {
   }
 
   @Override
-  public Pizza Get(int id) {
+  public Pizza get(int id) {
 
     com.crystalpizaa.api.dao.entities.Pizza pizzaObj = this.pizzaRepository.getOne(id);
 
@@ -48,7 +47,7 @@ public class PizzaServiceImpl implements PizzaService {
   }
 
   @Override
-  public boolean Remove(int id) {
+  public boolean remove(int id) {
     this.pizzaRepository.deleteById(id);
 
     return true;

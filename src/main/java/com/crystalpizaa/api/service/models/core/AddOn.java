@@ -7,9 +7,9 @@ public class AddOn extends Component {
 
   @Getter
   @Setter
-  private AddOnType Type;
+  private AddOnType type;
 
   @Getter
   @Setter
-  private Size Size;
+  private Size size;
 }

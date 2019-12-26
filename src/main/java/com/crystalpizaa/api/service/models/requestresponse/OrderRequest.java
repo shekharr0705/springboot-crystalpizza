@@ -8,10 +8,10 @@ import com.crystalpizaa.api.service.models.core.Order;
 @Setter
 public class OrderRequest extends Order {
 
-  private int UserId;
+  private int userId;
 
-  private Boolean AddressSameAsUserAddress;
+  private Boolean addressSameAsUserAddress;
 
-  private String Address;
+  private String address;
 
 }

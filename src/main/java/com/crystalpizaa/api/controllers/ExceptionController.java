@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class ExceptionController {
 
   @ExceptionHandler(value = ValidationException.class)
-  public ResponseEntity<ErrorInfo> Exception(ValidationException exception) {
+  public ResponseEntity<ErrorInfo> exception(ValidationException exception) {
     return new ResponseEntity<>(exception.getErrorInfo(), HttpStatus.BAD_REQUEST);
   }
 

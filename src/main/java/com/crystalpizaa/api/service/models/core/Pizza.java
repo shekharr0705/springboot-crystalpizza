@@ -7,9 +7,9 @@ public class Pizza extends Component {
 
   @Getter
   @Setter
-  private PizzaType Type;
+  private PizzaType type;
 
   @Getter
   @Setter
-  private Size Size;
+  private Size size;
 }

@@ -6,14 +6,14 @@ import lombok.Getter;
 public class ValidationInfo{
 
   @Getter
-  private String FieldName;
+  private String fieldName;
 
   @Getter
-  private String Info;
+  private String info;
 
   public  ValidationInfo(String fieldName, String info) {
-    this.FieldName = fieldName;
-    this.Info = info;
+    this.fieldName = fieldName;
+    this.info = info;
   }
 
 }

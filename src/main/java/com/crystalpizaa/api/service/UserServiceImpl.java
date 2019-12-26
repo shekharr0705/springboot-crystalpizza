@@ -1,9 +1,7 @@
-package com.crystalpizaa.api.service.implementations;
+package com.crystalpizaa.api.service;
 
 import com.crystalpizaa.api.dao.interfaces.UserRepository;
-import com.crystalpizaa.api.service.interfaces.UserService;
 import com.crystalpizaa.api.service.models.core.User;
-import com.crystalpizaa.api.service.models.requestresponse.PriceRequest;
 import com.crystalpizaa.api.service.models.validation.ErrorInfo;
 import com.crystalpizaa.api.service.models.validation.ValidationException;
 import com.crystalpizaa.api.service.models.validation.ValidationInfo;
@@ -20,30 +18,30 @@ public class UserServiceImpl implements UserService {
   private UserRepository userRepository;
 
   @Override
-  public User Save(User user) {
+  public User save(User user) {
     if (this.EnsureValid(user)) {
       com.crystalpizaa.api.dao.entities.User daoObj = this.userRepository
           .save(UserTranslator.ToDaoEntiry(user));
-      return UserTranslator.ToServiceModel(daoObj);
+      return UserTranslator.toServiceModel(daoObj);
     }
     return null;
   }
 
   @Override
-  public List<User> GetAll() {
+  public List<User> getAll() {
     List<com.crystalpizaa.api.dao.entities.User> daoObjs = this.userRepository.findAll();
-    return UserTranslator.ToServiceModel(daoObjs);
+    return UserTranslator.toServiceModel(daoObjs);
   }
 
   @Override
-  public User GetById(int id) {
+  public User getById(int id) {
     com.crystalpizaa.api.dao.entities.User daoObj = this.userRepository.getOne(id);
 
-    return UserTranslator.ToServiceModel(daoObj);
+    return UserTranslator.toServiceModel(daoObj);
   }
 
   @Override
-  public Boolean Remove(int id) {
+  public Boolean remove(int id) {
     this.userRepository.deleteById(id);
     return true;
   }

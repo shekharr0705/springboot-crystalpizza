@@ -14,7 +14,7 @@ public class PizzaTranslator {
     pizza.setDescription(daoObj.getDescription());
     pizza.setPrice(daoObj.getPrice());
     pizza.setType(ToServiceModel(daoObj.getType()));
-    pizza.setSize(CommonTranslator.ToServiceModel(daoObj.getSize()));
+    pizza.setSize(CommonTranslator.toServiceModel(daoObj.getSize()));
     return pizza;
   }
 
@@ -26,7 +26,7 @@ public class PizzaTranslator {
     pizza.setDescription(serviceObj.getDescription());
     pizza.setPrice(serviceObj.getPrice());
     pizza.setType(ToDaoModel(serviceObj.getType()));
-    pizza.setSize(CommonTranslator.ToDaoModel((serviceObj.getSize())));
+    pizza.setSize(CommonTranslator.toDaoModel((serviceObj.getSize())));
     return pizza;
   }
 

@@ -4,21 +4,20 @@ import com.crystalpizaa.api.service.models.core.PriceModel;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
-import com.crystalpizaa.api.service.models.core.Order;
 
 @Getter
 @Setter
 public class PriceResponse {
 
-  private double Total;
+  private double total;
 
   @Getter
   @Setter
-  private List<PriceModel> Pizzas;
+  private List<PriceModel> pizzas;
 
   @Getter
   @Setter
-  private List<PriceModel> AddOns;
+  private List<PriceModel> addOns;
 
   public double getTotal() {
     double total = 0;

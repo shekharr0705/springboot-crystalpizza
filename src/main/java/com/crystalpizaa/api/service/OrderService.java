@@ -1,4 +1,4 @@
-package com.crystalpizaa.api.service.interfaces;
+package com.crystalpizaa.api.service;
 
 import com.crystalpizaa.api.service.models.requestresponse.OrderRequest;
 import com.crystalpizaa.api.service.models.requestresponse.OrderResponse;
@@ -8,14 +8,14 @@ import java.util.List;
 
 public interface OrderService {
 
-  PriceResponse GetPrice(PriceRequest request);
+  PriceResponse getPrice(PriceRequest request);
 
-  OrderResponse PlaceOrder(OrderRequest request);
+  OrderResponse placeOrder(OrderRequest request);
 
-  List<OrderResponse> GetAll();
+  List<OrderResponse> getAll();
 
-  OrderResponse GetById(int id);
+  OrderResponse getById(int id);
 
-  Boolean CancelOrder(int orderId);
+  Boolean cancelOrder(int orderId);
 
 }

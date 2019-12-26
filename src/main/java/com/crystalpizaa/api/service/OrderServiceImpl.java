@@ -1,4 +1,4 @@
-package com.crystalpizaa.api.service.implementations;
+package com.crystalpizaa.api.service;
 
 import com.crystalpizaa.api.dao.entities.ComponentType;
 import com.crystalpizaa.api.dao.entities.Order;
@@ -7,7 +7,6 @@ import com.crystalpizaa.api.dao.interfaces.AddOnRepository;
 import com.crystalpizaa.api.dao.interfaces.OrderRepository;
 import com.crystalpizaa.api.dao.interfaces.PizzaRepository;
 import com.crystalpizaa.api.dao.interfaces.UserRepository;
-import com.crystalpizaa.api.service.interfaces.OrderService;
 import com.crystalpizaa.api.service.models.core.AddOn;
 import com.crystalpizaa.api.service.models.core.Component;
 import com.crystalpizaa.api.service.models.core.OrderItem;
@@ -47,7 +46,7 @@ public class OrderServiceImpl implements OrderService {
   OrderRepository orderRepository;
 
   @Override
-  public PriceResponse GetPrice(PriceRequest request) {
+  public PriceResponse getPrice(PriceRequest request) {
     if (this.EnsureValid(request)) {
 
       PriceResponse response = new PriceResponse();
@@ -63,7 +62,7 @@ public class OrderServiceImpl implements OrderService {
   }
 
   @Override
-  public OrderResponse PlaceOrder(OrderRequest request) {
+  public OrderResponse placeOrder(OrderRequest request) {
 
     if (this.EnsureValid(request)) {
       OrderResponse response = new OrderResponse();
@@ -74,7 +73,7 @@ public class OrderServiceImpl implements OrderService {
       Order order = this.orderRepository.save(GenerateOrder(request, response.getTotal()));
 
       response.setOrderId(order.getId());
-      response.setCustomerDetails(UserTranslator.ToServiceModel(order.getUser()));
+      response.setCustomerDetails(UserTranslator.toServiceModel(order.getUser()));
       response.setDeliveryAddress(order.getAddress());
       response.setOrderDate(order.getOrderDate());
 
@@ -86,7 +85,7 @@ public class OrderServiceImpl implements OrderService {
   }
 
   @Override
-  public List<OrderResponse> GetAll() {
+  public List<OrderResponse> getAll() {
 
     List<OrderResponse> orderResponses = new ArrayList<>();
 
@@ -98,7 +97,7 @@ public class OrderServiceImpl implements OrderService {
         OrderResponse response = new OrderResponse();
         response.setOrderId(order.getId());
         response.setDeliveryAddress(order.getAddress());
-        response.setCustomerDetails(UserTranslator.ToServiceModel(order.getUser()));
+        response.setCustomerDetails(UserTranslator.toServiceModel(order.getUser()));
 
         List<com.crystalpizaa.api.dao.entities.OrderItem> dao_pizzas = order.getOrderItems()
             .stream()
@@ -127,14 +126,14 @@ public class OrderServiceImpl implements OrderService {
   }
 
   @Override
-  public OrderResponse GetById(int id) {
+  public OrderResponse getById(int id) {
     OrderResponse response = new OrderResponse();
 
     Order order = this.orderRepository.getOne(id);
 
     response.setOrderId(order.getId());
     response.setDeliveryAddress(order.getAddress());
-    response.setCustomerDetails(UserTranslator.ToServiceModel(order.getUser()));
+    response.setCustomerDetails(UserTranslator.toServiceModel(order.getUser()));
 
     List<com.crystalpizaa.api.dao.entities.OrderItem> dao_pizzas = order.getOrderItems().stream()
         .filter(x -> x.getType() == ComponentType.Pizza)
@@ -156,7 +155,7 @@ public class OrderServiceImpl implements OrderService {
   }
 
   @Override
-  public Boolean CancelOrder(int orderId) {
+  public Boolean cancelOrder(int orderId) {
     this.orderRepository.deleteById(orderId);
     return true;
   }
@@ -184,8 +183,8 @@ public class OrderServiceImpl implements OrderService {
 
   private List<com.crystalpizaa.api.dao.entities.OrderItem> GetDaoOrderItems(OrderRequest request) {
     List<com.crystalpizaa.api.dao.entities.OrderItem> daoOrderItems = new ArrayList<>();
-    daoOrderItems.addAll(OrderTranslator.ToDaoEntity(request.getPizzas(), ComponentType.Pizza));
-    daoOrderItems.addAll(OrderTranslator.ToDaoEntity(request.getAddOns(), ComponentType.AddOn));
+    daoOrderItems.addAll(OrderTranslator.toDaoEntity(request.getPizzas(), ComponentType.Pizza));
+    daoOrderItems.addAll(OrderTranslator.toDaoEntity(request.getAddOns(), ComponentType.AddOn));
 
     return daoOrderItems;
   }
@@ -224,7 +223,7 @@ public class OrderServiceImpl implements OrderService {
     if (orderItems.size() > 0) {
       for (OrderItem orderItem : orderItems) {
         AddOn addOn = AddOnTranslator
-            .ToServiceModel(this.addOnRepository.getOne(orderItem.getId()));
+            .toServiceModel(this.addOnRepository.getOne(orderItem.getId()));
 
         priceDetailsList.add(this.GetPriceDetails(addOn, orderItem));
       }

@@ -4,7 +4,7 @@ import com.crystalpizaa.api.service.models.core.Size;
 
 public class CommonTranslator {
 
-  public static Size ToServiceModel(com.crystalpizaa.api.dao.entities.Size daoObj)
+  public static Size toServiceModel(com.crystalpizaa.api.dao.entities.Size daoObj)
   {
     switch (daoObj)
     {
@@ -16,7 +16,7 @@ public class CommonTranslator {
     return Size.Small;
   }
 
-  public static com.crystalpizaa.api.dao.entities.Size ToDaoModel(Size serviceObj)
+  public static com.crystalpizaa.api.dao.entities.Size toDaoModel(Size serviceObj)
   {
     switch (serviceObj)
     {

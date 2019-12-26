@@ -1,4 +1,4 @@
-package com.crystalpizaa.api.service.interfaces;
+package com.crystalpizaa.api.service;
 
 import com.crystalpizaa.api.service.models.validation.ValidationException;
 import java.util.List;
@@ -6,11 +6,11 @@ import com.crystalpizaa.api.service.models.core.Pizza;
 
 public interface PizzaService {
 
-  Pizza Save(Pizza pizza) throws ValidationException;
+  Pizza save(Pizza pizza);
 
-  List<Pizza> GetAll();
+  List<Pizza> getAll();
 
-  Pizza Get(int id);
+  Pizza get(int id);
 
-  boolean Remove(int id);
+  boolean remove(int id);
 }

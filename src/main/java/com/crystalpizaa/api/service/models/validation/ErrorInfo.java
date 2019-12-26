@@ -8,19 +8,19 @@ public class ErrorInfo {
 
   @Getter
   @Setter
-  private List<ValidationInfo> FailedValidationFields;
+  private List<ValidationInfo> failedValidationFields;
 
   @Getter
   @Setter
-  private String Title;
+  private String title;
 
   @Getter
-  private String Details;
+  private String details;
 
   public String getDetails() {
-    if(this.Details == null)
+    if(this.details == null)
       return this.getTitle();
-    return this.Details;
+    return this.details;
   }
 
 }

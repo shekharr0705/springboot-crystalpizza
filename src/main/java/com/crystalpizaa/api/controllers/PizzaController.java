@@ -1,6 +1,6 @@
 package com.crystalpizaa.api.controllers;
 
-import com.crystalpizaa.api.service.interfaces.PizzaService;
+import com.crystalpizaa.api.service.PizzaService;
 import com.crystalpizaa.api.service.models.core.Pizza;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,24 +21,24 @@ public class PizzaController {
 
 
   @RequestMapping(name = "GetAll", value = "/get/all", method = RequestMethod.GET)
-  public ResponseEntity<List<Pizza>> GetAll() {
-    return new ResponseEntity<>(this.pizzaService.GetAll(), HttpStatus.OK);
+  public ResponseEntity<List<Pizza>> getAll() {
+    return new ResponseEntity<>(this.pizzaService.getAll(), HttpStatus.OK);
   }
 
   @RequestMapping(name = "GetById", value = "/get/{id}", method = RequestMethod.GET)
-  public ResponseEntity<Pizza> GetById(@PathVariable int id) {
-    return new ResponseEntity<>(this.pizzaService.Get(id), HttpStatus.OK);
+  public ResponseEntity<Pizza> getById(@PathVariable int id) {
+    return new ResponseEntity<>(this.pizzaService.get(id), HttpStatus.OK);
   }
 
   @RequestMapping(name = "Save", value = "/save", method = RequestMethod.POST)
-  public ResponseEntity<Pizza> Save(@RequestBody Pizza pizza) {
+  public ResponseEntity<Pizza> save(@RequestBody Pizza pizza) {
 
-    return new ResponseEntity<>(this.pizzaService.Save(pizza), HttpStatus.CREATED);
+    return new ResponseEntity<>(this.pizzaService.save(pizza), HttpStatus.CREATED);
 
   }
 
   @RequestMapping(name = "Delete", value = "/remove/{id}", method = RequestMethod.DELETE)
-  public ResponseEntity<Boolean> Remove(@PathVariable int id) {
-    return new ResponseEntity<>(this.pizzaService.Remove(id), HttpStatus.OK);
+  public ResponseEntity<Boolean> remove(@PathVariable int id) {
+    return new ResponseEntity<>(this.pizzaService.remove(id), HttpStatus.OK);
   }
 }

@@ -8,7 +8,7 @@ import java.util.List;
 
 public class OrderTranslator {
 
-  public static List<com.crystalpizaa.api.dao.entities.OrderItem> ToDaoEntity(
+  public static List<com.crystalpizaa.api.dao.entities.OrderItem> toDaoEntity(
       List<OrderItem> serviceObjs,
       ComponentType type) {
     List<com.crystalpizaa.api.dao.entities.OrderItem> daoItems = new ArrayList<>();

@@ -28,11 +28,11 @@ public class Order {
   @javax.persistence.Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "order_id")
-  private int Id;
+  private int id;
 
-  private String Address;
+  private String address;
 
-  private Double Total;
+  private Double total;
 
   @ManyToOne(fetch = FetchType.EAGER, optional = false, cascade=CascadeType.REFRESH)
   @JoinColumn(name = "user_id", nullable = false)
@@ -53,7 +53,7 @@ public class Order {
   @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL) // Cascade.All used to save child as well
   @OnDelete(action = OnDeleteAction.CASCADE)
   @JoinColumn(name = "order_id", nullable = false)
-  private List<OrderItem> OrderItems;
+  private List<OrderItem> orderItems;
 
-  private LocalDateTime OrderDate;
+  private LocalDateTime orderDate;
 }

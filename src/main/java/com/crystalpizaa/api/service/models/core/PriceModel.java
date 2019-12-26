@@ -8,9 +8,9 @@ public class PriceModel extends OrderItem {
 
   @Getter
   @Setter
-  private double UnitCost;
+  private double unitCost;
 
-  private double Total;
+  private double total;
 
   public double getTotal() {
     return  this.getUnitCost() * this.getQuantity();
