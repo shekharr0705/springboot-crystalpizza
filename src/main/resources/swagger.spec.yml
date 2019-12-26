@@ -1,0 +1,510 @@
+---
+swagger: '2.0'
+info:
+  description: "This is Pizza order service endpints for Crystal Pizza Shop"
+  version: '1.0'
+  title: "Crystal Pizza Api Documentation"
+  termsOfService: ""
+  contact:
+    email: "shekharr@tavisca.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0"
+host: "localhost:8088"
+basePath: "/"
+tags:
+- name: "AddOns Controller"
+  description: "Controller Add/Update/Remove AddOns from inventory"
+- name: "Order Controller"
+  description: "Controller to Order Pizza"
+- name: "Pizza Controller"
+  description: "Controller to Add/Update/Remove Pizza from inventory"
+- name: "User Controller"
+  description: "Controller to Add/Update/Remove user"
+paths:
+  "/addons/get/all":
+    get:
+      tags:
+      - "AddOns Controller"
+      summary: "Get All AddOns"
+      operationId:  "GetAddOns"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        '200':
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              "$ref": "#/definitions/AddOn"
+  "/addons/get/{id}":
+    get:
+      tags:
+      - "AddOns Controller"
+      summary: "Get AddOn By Id"
+      operationId: "GetAddOnById"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Id of AddOn"
+        required: true
+        type: "integer"
+        format: "int32"
+      responses:
+        '200':
+          description: "OK"
+          schema:
+            "$ref": "#/definitions/AddOn"
+  "/addons/save":
+    post:
+      tags:
+      - "AddOns Controller"
+      summary: " AddOn"
+      operationId: "SaveAddOn"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "addOn"
+        description: "AddOn Details"
+        required: true
+        schema:
+          "$ref": "#/definitions/AddOn"
+      responses:
+        '200':
+          description: "OK"
+          schema:
+            "$ref": "#/definitions/AddOn"
+  "/orders/cancel/{id}":
+    delete:
+      tags:
+      - "Order Controller"
+      summary: "Cancel Order"
+      operationId: "CancelOrder"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Order id tobe cancelled"
+        required: true
+        type: "integer"
+        format: "int32"
+      responses:
+        '200':
+          description: "OK"
+          schema:
+            type: "boolean"
+  "/orders/get-price":
+    post:
+      tags:
+      - "Order Controller"
+      summary: "Get Price of order before ordering"
+      operationId: "GetPriceOfOrder"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "Price Request"
+        description: "Price Request"
+        required: true
+        schema:
+          "$ref": "#/definitions/PriceRequest"
+      responses:
+        '200':
+          description: "OK"
+          schema:
+            "$ref": "#/definitions/PriceResponse"
+  "/orders/get/all":
+    get:
+      tags:
+      - "Order Controller"
+      summary: "Get list of all orders"
+      operationId: "GetAllOrders"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        '200':
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              "$ref": "#/definitions/OrderResponse"
+  "/orders/get/{id}":
+    get:
+      tags:
+      - "Order Controller"
+      summary: "Get Order By Id"
+      operationId: "GetOrderById"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "OrderId for which details to be fetched"
+        required: true
+        type: "integer"
+        format: "int32"
+      responses:
+        '200':
+          description: "OK"
+          schema:
+            "$ref": "#/definitions/OrderResponse"
+  "/orders/place":
+    post:
+      tags:
+      - "Order Controller"
+      summary: "Place actual order for Pizza and AddOns you have selected"
+      operationId: "PlaceOrder"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "Place order Request"
+        description: "Place order Request"
+        required: true
+        schema:
+          "$ref": "#/definitions/OrderRequest"
+      responses:
+        '200':
+          description: "OK"
+          schema:
+            "$ref": "#/definitions/OrderResponse"
+  "/pizzas/get/all":
+    get:
+      tags:
+      - "Pizza Controller"
+      summary: "Get all available pizza in inventory"
+      operationId: "GetAllPizzas"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        '200':
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              "$ref": "#/definitions/Pizza"
+  "/pizzas/get/{id}":
+    get:
+      tags:
+      - "Pizza Controller"
+      summary: "Get Pizza by Id"
+      operationId: "GetPizzaById"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Pizza Id for which details tobe fetched"
+        required: true
+        type: "integer"
+        format: "int32"
+      responses:
+        '200':
+          description: "OK"
+          schema:
+            "$ref": "#/definitions/Pizza"
+  "/pizzas/remove/{id}":
+    delete:
+      tags:
+      - "Pizza Controller"
+      summary: "Remove pizza from inventory"
+      operationId: "RemovePizza"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Id of pizza tobe removed from inventory"
+        required: true
+        type: "integer"
+        format: "int32"
+      responses:
+        '200':
+          description: "OK"
+          schema:
+            type: "boolean"
+  "/pizzas/save":
+    post:
+      tags:
+      - "Pizza Controller"
+      summary: "Add/Update pizza in inventory"
+      operationId: "AddUpdatePizza"
+      consumes:
+      - "application/json"
+      produces:
+      - "*/*"
+      parameters:
+      - in: "body"
+        name: "Pizza Details"
+        description: "Pizza Details"
+        required: true
+        schema:
+          "$ref": "#/definitions/Pizza"
+      responses:
+        '200':
+          description: "OK"
+          schema:
+            "$ref": "#/definitions/Pizza"
+  "/users/get/all":
+    get:
+      tags:
+      - "User Controller"
+      summary: "Get all users"
+      operationId: "GetAllUsers"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        '200':
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              "$ref": "#/definitions/User"
+  "/users/get/{id}":
+    get:
+      tags:
+      - "User Controller"
+      summary: "Get user by id"
+      operationId: "GetUserById"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "User id for which data is requested"
+        required: true
+        type: "integer"
+        format: "int32"
+      responses:
+        '200':
+          description: "OK"
+          schema:
+            "$ref": "#/definitions/User"
+  "/users/remove/{id}":
+    delete:
+      tags:
+      - "User Controller"
+      summary: "Remove User"
+      operationId: "RemoveUser"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Id of user tobe removed"
+        required: true
+        type: "integer"
+        format: "int32"
+      responses:
+        '200':
+          description: "OK"
+          schema:
+            type: "boolean"
+  "/users/save":
+    post:
+      tags:
+      - "User Controller"
+      summary: "Add/Update User"
+      operationId: "AddUpdateUser"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "User Details"
+        description: "User Details"
+        required: true
+        schema:
+          "$ref": "#/definitions/User"
+      responses:
+        '200':
+          description: "OK"
+          schema:
+            "$ref": "#/definitions/User"
+definitions:
+  AddOn:
+    type: "object"
+    properties:
+      description:
+        type: "string"
+      id:
+        type: "integer"
+        format: "int32"
+      name:
+        type: "string"
+      price:
+        type: "number"
+        format: "double"
+      size:
+        type: "string"
+        enum:
+        - "Small"
+        - "Medium"
+        - "Large"
+      type:
+        type: "string"
+        enum:
+        - "Beverage"
+        - "Desert"
+  OrderItem:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int32"
+      quantity:
+        type: "integer"
+        format: "int32"
+  OrderRequest:
+    type: "object"
+    properties:
+      addOns:
+        type: "array"
+        items:
+          "$ref": "#/definitions/OrderItem"
+      address:
+        type: "string"
+      addressSameAsUserAddress:
+        type: "boolean"
+      pizzas:
+        type: "array"
+        items:
+          "$ref": "#/definitions/OrderItem"
+      userId:
+        type: integer
+        format: int32
+  OrderResponse:
+    type: object
+    properties:
+      addOns:
+        type: array
+        items:
+          "$ref": "#/definitions/PriceModel"
+      customerDetails:
+        "$ref": "#/definitions/User"
+      deliveryAddress:
+        type: "string"
+      orderDate:
+        type: "string"
+        format: "date"
+      orderId:
+        type: "integer"
+        format: "int32"
+      pizzas:
+        type: "array"
+        items:
+          "$ref": "#/definitions/PriceModel"
+      total:
+        type: "number"
+        format: "double"
+  Pizza:
+    type: "object"
+    properties:
+      description:
+        type: "string"
+      id:
+        type: "integer"
+        format: "int32"
+      name:
+        type: "string"
+      price:
+        type: "number"
+        format: "double"
+      size:
+        type: "string"
+        enum:
+        - "Small"
+        - "Medium"
+        - "Large"
+      type:
+        type: "string"
+        enum:
+        - "Veg"
+        - "NonVeg"
+  PriceModel:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int32"
+      quantity:
+        type: "integer"
+        format: "int32"
+      total:
+        type: "number"
+        format: "double"
+      unitCost:
+        type: "number"
+        format: "double"
+  PriceRequest:
+    type: "object"
+    properties:
+      addOns:
+        type: "array"
+        items:
+          "$ref": "#/definitions/OrderItem"
+      pizzas:
+        type: "array"
+        items:
+          "$ref": "#/definitions/OrderItem"
+  PriceResponse:
+    type: "object"
+    properties:
+      addOns:
+        type: "array"
+        items:
+          "$ref": "#/definitions/PriceModel"
+      pizzas:
+        type: "array"
+        items:
+          "$ref": "#/definitions/PriceModel"
+      total:
+        type: "number"
+        format: "double"
+  User:
+    type: "object"
+    properties:
+      address:
+        type: "string"
+      contact:
+        type: "string"
+      emailAddress:
+        type: "string"
+      id:
+        type: "integer"
+        format: "int32"
+      name:
+        type: "string"
