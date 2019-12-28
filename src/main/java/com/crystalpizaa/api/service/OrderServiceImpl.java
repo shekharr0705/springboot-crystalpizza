@@ -47,13 +47,13 @@ public class OrderServiceImpl implements OrderService {
 
   @Override
   public PriceResponse getPrice(PriceRequest request) {
-    if (this.EnsureValid(request)) {
+    if (this.ensureValid(request)) {
 
       PriceResponse response = new PriceResponse();
 
       response.setPizzas(GetPizzasPriceDetailsList(request.getPizzas()));
 
-      response.setAddOns(GetAddOnsPriceDetailsList(request.getAddOns()));
+      response.setAddOns(getAddOnsPriceDetailsList(request.getAddOns()));
 
       return response;
     }
@@ -64,11 +64,11 @@ public class OrderServiceImpl implements OrderService {
   @Override
   public OrderResponse placeOrder(OrderRequest request) {
 
-    if (this.EnsureValid(request)) {
+    if (this.ensureValid(request)) {
       OrderResponse response = new OrderResponse();
 
       response.setPizzas(GetPizzasPriceDetailsList(request.getPizzas()));
-      response.setAddOns(GetAddOnsPriceDetailsList(request.getAddOns()));
+      response.setAddOns(getAddOnsPriceDetailsList(request.getAddOns()));
 
       Order order = this.orderRepository.save(GenerateOrder(request, response.getTotal()));
 
@@ -113,7 +113,7 @@ public class OrderServiceImpl implements OrderService {
         List<OrderItem> addOn = GetServiceOrderItems(dao_addOns);
 
         response.setPizzas(GetPizzasPriceDetailsList(pizzas));
-        response.setAddOns(GetAddOnsPriceDetailsList(addOn));
+        response.setAddOns(getAddOnsPriceDetailsList(addOn));
 
         response.setOrderDate(order.getOrderDate());
 
@@ -147,7 +147,7 @@ public class OrderServiceImpl implements OrderService {
     List<OrderItem> addOn = GetServiceOrderItems(dao_addOns);
 
     response.setPizzas(GetPizzasPriceDetailsList(pizzas));
-    response.setAddOns(GetAddOnsPriceDetailsList(addOn));
+    response.setAddOns(getAddOnsPriceDetailsList(addOn));
 
     response.setOrderDate(order.getOrderDate());
 
@@ -211,13 +211,13 @@ public class OrderServiceImpl implements OrderService {
         Pizza pizza = PizzaTranslator
             .ToServiceModel(this.pizzaRepository.getOne(orderItem.getId()));
 
-        priceDetailsList.add(this.GetPriceDetails(pizza, orderItem));
+        priceDetailsList.add(this.getPriceDetails(pizza, orderItem));
       }
     }
     return priceDetailsList;
   }
 
-  private List<PriceModel> GetAddOnsPriceDetailsList(List<OrderItem> orderItems) {
+  private List<PriceModel> getAddOnsPriceDetailsList(List<OrderItem> orderItems) {
     List<PriceModel> priceDetailsList = new ArrayList<PriceModel>();
 
     if (orderItems.size() > 0) {
@@ -225,13 +225,13 @@ public class OrderServiceImpl implements OrderService {
         AddOn addOn = AddOnTranslator
             .toServiceModel(this.addOnRepository.getOne(orderItem.getId()));
 
-        priceDetailsList.add(this.GetPriceDetails(addOn, orderItem));
+        priceDetailsList.add(this.getPriceDetails(addOn, orderItem));
       }
     }
     return priceDetailsList;
   }
 
-  private PriceModel GetPriceDetails(Component c, OrderItem item) {
+  private PriceModel getPriceDetails(Component c, OrderItem item) {
     PriceModel priceItem = new PriceModel();
 
     priceItem.setId(item.getId());
@@ -242,7 +242,7 @@ public class OrderServiceImpl implements OrderService {
   }
 
 
-  private boolean EnsureValid(OrderRequest orderRequest) {
+  private boolean ensureValid(OrderRequest orderRequest) {
 
     List<ValidationInfo> failedValidations = new ArrayList<>();
 
@@ -271,7 +271,7 @@ public class OrderServiceImpl implements OrderService {
     return true;
   }
 
-  private boolean EnsureValid(PriceRequest priceRequest) {
+  private boolean ensureValid(PriceRequest priceRequest) {
 
     List<ValidationInfo> failedValidations = new ArrayList<>();
 

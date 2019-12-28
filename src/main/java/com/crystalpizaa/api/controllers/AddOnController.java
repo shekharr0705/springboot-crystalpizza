@@ -33,4 +33,10 @@ public class AddOnController {
   public ResponseEntity<AddOn> save(@RequestBody AddOn addOn) {
     return new ResponseEntity<>(this.addOnService.save(addOn),HttpStatus.CREATED);
   }
+
+  @RequestMapping(name = "remove", path = "/remove/{id}", method = RequestMethod.DELETE)
+  public ResponseEntity<Boolean> remove(@PathVariable int id) {
+    return new ResponseEntity<>(this.addOnService.remove(id),HttpStatus.OK);
+  }
+
 }
