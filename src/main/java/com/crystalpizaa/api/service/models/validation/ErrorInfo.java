@@ -14,7 +14,6 @@ public class ErrorInfo {
   @Setter
   private String title;
 
-  @Getter
   private String details;
 
   public String getDetails() {

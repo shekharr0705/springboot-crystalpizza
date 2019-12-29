@@ -41,5 +41,13 @@ Use above base API Url to call service endpoints.
 
 One can use swagger.spec.yml file present in **resource** folder to explore and try out API endpoints
 
+## Containerize API
+You need to create if not exist Dockerfile in root folder. Dockerfile is added for this api.
+Use below commands to host api in container. 
+   * gradlew clean build
+   * docker build --build-arg JAR_FILE=build/libs/*.jar  -t shekhar/crystalpizza .
+   * docker run  -p 8089:8080 -t shekhar/crystalpizza --name crystalpizza_api_box
+ 
+
 ## Author
 * **Shekhar Rajepandhare**
