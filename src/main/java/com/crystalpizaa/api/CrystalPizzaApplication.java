@@ -1,5 +1,7 @@
 package com.crystalpizaa.api;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
@@ -14,12 +16,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class CrystalPizzaApplication {
 
   public static void main(String[] args) {
-    try {
-      SpringApplication.run(CrystalPizzaApplication.class, args);
-    } catch (Exception ex) {
-      System.out.println(ex.getMessage());
-    }
-
+    final Logger logger = LoggerFactory.getLogger(CrystalPizzaApplication.class);
+    SpringApplication.run(CrystalPizzaApplication.class, args);
+    logger.info("Service has been Started");
   }
 
 }

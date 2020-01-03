@@ -41,7 +41,7 @@ public class AddOnServiceImplTest {
   public void init() {
     initMocks(this);
     when(addOnRepository.findAll()).thenReturn(RepositoryMockData.getAllAddOns());
-    when(addOnRepository.getOne(anyInt())).thenReturn(RepositoryMockData.getAddOnById(1));
+    when(addOnRepository.findById(anyInt())).thenReturn(RepositoryMockData.getAddOnById(1));
     when(addOnRepository.save(ArgumentMatchers.any())).thenReturn(RepositoryMockData.saveAddon());
     doNothing().when(addOnRepository).deleteById(anyInt());
   }

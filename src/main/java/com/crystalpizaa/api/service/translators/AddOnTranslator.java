@@ -8,6 +8,9 @@ import com.crystalpizaa.api.service.models.core.AddOnType;
 public class AddOnTranslator {
 
   public static AddOn toServiceModel(com.crystalpizaa.api.dao.entities.AddOn daoObj) {
+    if(daoObj == null) {
+      return null;
+    }
     AddOn addOn = new AddOn();
     addOn.setId(daoObj.getId());
     addOn.setName(daoObj.getName());

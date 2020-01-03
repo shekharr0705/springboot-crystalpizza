@@ -1,5 +1,6 @@
 package com.crystalpizaa.api.service;
 
+import com.crystalpizaa.api.AppLogger;
 import com.crystalpizaa.api.dao.entities.ComponentType;
 import com.crystalpizaa.api.dao.entities.Order;
 import com.crystalpizaa.api.dao.entities.User;
@@ -16,6 +17,7 @@ import com.crystalpizaa.api.service.models.requestresponse.OrderRequest;
 import com.crystalpizaa.api.service.models.requestresponse.OrderResponse;
 import com.crystalpizaa.api.service.models.requestresponse.PriceRequest;
 import com.crystalpizaa.api.service.models.requestresponse.PriceResponse;
+import com.crystalpizaa.api.service.models.validation.DataNotFoundException;
 import com.crystalpizaa.api.service.models.validation.ErrorInfo;
 import com.crystalpizaa.api.service.models.validation.ValidationException;
 import com.crystalpizaa.api.service.models.validation.ValidationInfo;
@@ -27,6 +29,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.persistence.EntityNotFoundException;
+import org.slf4j.event.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,15 +51,23 @@ public class OrderServiceImpl implements OrderService {
 
   @Override
   public PriceResponse getPrice(PriceRequest request) {
-    if (this.ensureValid(request)) {
+    try {
+      if (this.ensureValid(request)) {
 
-      PriceResponse response = new PriceResponse();
+        PriceResponse response = new PriceResponse();
 
-      response.setPizzas(GetPizzasPriceDetailsList(request.getPizzas()));
+        response.setPizzas(GetPizzasPriceDetailsList(request.getPizzas()));
 
-      response.setAddOns(getAddOnsPriceDetailsList(request.getAddOns()));
+        response.setAddOns(getAddOnsPriceDetailsList(request.getAddOns()));
 
-      return response;
+        return response;
+      }
+    } catch (Exception ex) {
+      if (ex instanceof ValidationException) {
+        throw ex;
+      }
+      AppLogger
+          .log(this.getClass().getName(), "Exception occurred:" + ex.getMessage(), Level.ERROR);
     }
 
     return null;
@@ -64,100 +76,162 @@ public class OrderServiceImpl implements OrderService {
   @Override
   public OrderResponse placeOrder(OrderRequest request) {
 
-    if (this.ensureValid(request)) {
-      OrderResponse response = new OrderResponse();
+    try {
+      if (this.ensureValid(request)) {
+        OrderResponse response = new OrderResponse();
 
-      response.setPizzas(GetPizzasPriceDetailsList(request.getPizzas()));
-      response.setAddOns(getAddOnsPriceDetailsList(request.getAddOns()));
+        response.setPizzas(GetPizzasPriceDetailsList(request.getPizzas()));
+        response.setAddOns(getAddOnsPriceDetailsList(request.getAddOns()));
 
-      Order order = this.orderRepository.save(GenerateOrder(request, response.getTotal()));
+        Order order = this.orderRepository.save(GenerateOrder(request, response.getTotal()));
 
-      response.setOrderId(order.getId());
-      response.setCustomerDetails(UserTranslator.toServiceModel(order.getUser()));
-      response.setDeliveryAddress(order.getAddress());
-      response.setOrderDate(order.getOrderDate());
+        response.setOrderId(order.getId());
+        response.setCustomerDetails(UserTranslator.toServiceModel(order.getUser()));
+        response.setDeliveryAddress(order.getAddress());
+        response.setOrderDate(order.getOrderDate());
 
-      return response;
+        return response;
+      }
+    } catch (Exception ex) {
+      if (ex instanceof ValidationException) {
+        throw ex;
+      }
+      AppLogger
+          .log(this.getClass().getName(), "Exception occurred:" + ex.getMessage(), Level.ERROR);
     }
 
     return null;
-
   }
 
   @Override
   public List<OrderResponse> getAll() {
 
-    List<OrderResponse> orderResponses = new ArrayList<>();
+    try {
 
-    List<Order> orders = this.orderRepository.findAll();
+      List<OrderResponse> orderResponses = new ArrayList<>();
 
-    if (orders.size() > 0) {
-      for (Order order : orders) {
+      List<Order> orders = this.orderRepository.findAll();
 
-        OrderResponse response = new OrderResponse();
-        response.setOrderId(order.getId());
-        response.setDeliveryAddress(order.getAddress());
-        response.setCustomerDetails(UserTranslator.toServiceModel(order.getUser()));
-
-        List<com.crystalpizaa.api.dao.entities.OrderItem> dao_pizzas = order.getOrderItems()
-            .stream()
-            .filter(x -> x.getType() == ComponentType.Pizza)
-            .collect(Collectors.toList());
-
-        List<com.crystalpizaa.api.dao.entities.OrderItem> dao_addOns = order.getOrderItems()
-            .stream()
-            .filter(x -> x.getType() == ComponentType.AddOn).collect(
-                Collectors.toList());
-
-        List<OrderItem> pizzas = GetServiceOrderItems(dao_pizzas);
-        List<OrderItem> addOn = GetServiceOrderItems(dao_addOns);
-
-        response.setPizzas(GetPizzasPriceDetailsList(pizzas));
-        response.setAddOns(getAddOnsPriceDetailsList(addOn));
-
-        response.setOrderDate(order.getOrderDate());
-
-        orderResponses.add(response);
-
+      if (orders == null || orders.size() == 0) {
+        ErrorInfo error = new ErrorInfo();
+        error.setTitle("Data not found");
+        error.setDetails("Orders not found");
+        AppLogger.log(this.getClass().getName(), "Orders not found", Level.INFO);
+        throw new DataNotFoundException(error);
       }
+
+      if (orders.size() > 0) {
+        for (Order order : orders) {
+
+          OrderResponse response = new OrderResponse();
+          response.setOrderId(order.getId());
+          response.setDeliveryAddress(order.getAddress());
+          response.setCustomerDetails(UserTranslator.toServiceModel(order.getUser()));
+
+          List<com.crystalpizaa.api.dao.entities.OrderItem> dao_pizzas = order.getOrderItems()
+              .stream()
+              .filter(x -> x.getType() == ComponentType.Pizza)
+              .collect(Collectors.toList());
+
+          List<com.crystalpizaa.api.dao.entities.OrderItem> dao_addOns = order.getOrderItems()
+              .stream()
+              .filter(x -> x.getType() == ComponentType.AddOn).collect(
+                  Collectors.toList());
+
+          List<OrderItem> pizzas = GetServiceOrderItems(dao_pizzas);
+          List<OrderItem> addOn = GetServiceOrderItems(dao_addOns);
+
+          response.setPizzas(GetPizzasPriceDetailsList(pizzas));
+          response.setAddOns(getAddOnsPriceDetailsList(addOn));
+
+          response.setOrderDate(order.getOrderDate());
+
+          orderResponses.add(response);
+
+        }
+      }
+
+      return orderResponses;
+    } catch (Exception ex) {
+      if (ex instanceof DataNotFoundException) {
+        throw ex;
+      }
+      AppLogger
+          .log(this.getClass().getName(), "Exception occurred:" + ex.getMessage(), Level.ERROR);
     }
 
-    return orderResponses;
+    return null;
   }
 
   @Override
   public OrderResponse getById(int id) {
-    OrderResponse response = new OrderResponse();
+    try {
+      OrderResponse response = new OrderResponse();
 
-    Order order = this.orderRepository.getOne(id);
+      Order order = this.orderRepository.findById(id).orElse(null);
 
-    response.setOrderId(order.getId());
-    response.setDeliveryAddress(order.getAddress());
-    response.setCustomerDetails(UserTranslator.toServiceModel(order.getUser()));
+      if (order == null) {
+        ErrorInfo error = new ErrorInfo();
+        error.setTitle("Data not found");
+        error.setDetails(String.format("Requested order of id %d not found", id));
 
-    List<com.crystalpizaa.api.dao.entities.OrderItem> dao_pizzas = order.getOrderItems().stream()
-        .filter(x -> x.getType() == ComponentType.Pizza)
-        .collect(Collectors.toList());
+        throw new DataNotFoundException(error);
+      }
 
-    List<com.crystalpizaa.api.dao.entities.OrderItem> dao_addOns = order.getOrderItems().stream()
-        .filter(x -> x.getType() == ComponentType.AddOn).collect(
-            Collectors.toList());
+      response.setOrderId(order.getId());
+      response.setDeliveryAddress(order.getAddress());
+      response.setCustomerDetails(UserTranslator.toServiceModel(order.getUser()));
 
-    List<OrderItem> pizzas = GetServiceOrderItems(dao_pizzas);
-    List<OrderItem> addOn = GetServiceOrderItems(dao_addOns);
+      List<com.crystalpizaa.api.dao.entities.OrderItem> dao_pizzas = order.getOrderItems().stream()
+          .filter(x -> x.getType() == ComponentType.Pizza)
+          .collect(Collectors.toList());
 
-    response.setPizzas(GetPizzasPriceDetailsList(pizzas));
-    response.setAddOns(getAddOnsPriceDetailsList(addOn));
+      List<com.crystalpizaa.api.dao.entities.OrderItem> dao_addOns = order.getOrderItems().stream()
+          .filter(x -> x.getType() == ComponentType.AddOn).collect(
+              Collectors.toList());
 
-    response.setOrderDate(order.getOrderDate());
+      List<OrderItem> pizzas = GetServiceOrderItems(dao_pizzas);
+      List<OrderItem> addOn = GetServiceOrderItems(dao_addOns);
 
-    return response;
+      response.setPizzas(GetPizzasPriceDetailsList(pizzas));
+      response.setAddOns(getAddOnsPriceDetailsList(addOn));
+
+      response.setOrderDate(order.getOrderDate());
+
+      return response;
+    } catch (Exception ex) {
+      if (ex instanceof DataNotFoundException) {
+        throw ex;
+      }
+      AppLogger
+          .log(this.getClass().getName(), "Exception occurred:" + ex.getMessage(), Level.ERROR);
+    }
+    return null;
   }
 
   @Override
   public Boolean cancelOrder(int orderId) {
-    this.orderRepository.deleteById(orderId);
-    return true;
+
+    try {
+      Order order = this.orderRepository.findById(orderId).orElse(null);
+
+      if (order == null) {
+        ErrorInfo error = new ErrorInfo();
+        error.setTitle("Data not found");
+        error.setDetails(String.format("Requested order of id %d not found", orderId));
+
+        throw new DataNotFoundException(error);
+      }
+      this.orderRepository.deleteById(orderId);
+      return true;
+    } catch (Exception ex) {
+      if (ex instanceof DataNotFoundException) {
+        throw ex;
+      }
+      AppLogger
+          .log(this.getClass().getName(), "Exception occurred:" + ex.getMessage(), Level.ERROR);
+    }
+    return false;
   }
 
 
@@ -209,9 +283,10 @@ public class OrderServiceImpl implements OrderService {
     if (orderItems.size() > 0) {
       for (OrderItem orderItem : orderItems) {
         Pizza pizza = PizzaTranslator
-            .ToServiceModel(this.pizzaRepository.getOne(orderItem.getId()));
-
-        priceDetailsList.add(this.getPriceDetails(pizza, orderItem));
+            .ToServiceModel(this.pizzaRepository.findById(orderItem.getId()).orElse(null));
+        if (pizza != null) {
+          priceDetailsList.add(this.getPriceDetails(pizza, orderItem));
+        }
       }
     }
     return priceDetailsList;
@@ -223,9 +298,10 @@ public class OrderServiceImpl implements OrderService {
     if (orderItems.size() > 0) {
       for (OrderItem orderItem : orderItems) {
         AddOn addOn = AddOnTranslator
-            .toServiceModel(this.addOnRepository.getOne(orderItem.getId()));
-
-        priceDetailsList.add(this.getPriceDetails(addOn, orderItem));
+            .toServiceModel(this.addOnRepository.findById(orderItem.getId()).orElse(null));
+        if (addOn != null) {
+          priceDetailsList.add(this.getPriceDetails(addOn, orderItem));
+        }
       }
     }
     return priceDetailsList;

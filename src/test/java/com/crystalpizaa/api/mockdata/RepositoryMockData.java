@@ -3,8 +3,8 @@ package com.crystalpizaa.api.mockdata;
 import com.crystalpizaa.api.dao.entities.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public class RepositoryMockData {
 
@@ -120,8 +120,9 @@ public class RepositoryMockData {
     return pizzas;
   }
 
-  public static Pizza getPizzaById(Integer id) {
-    return pizzas.stream().filter(p -> p.getId() == id).findFirst().orElse(null);
+  public static Optional<Pizza> getPizzaById(Integer id) {
+    Pizza pizza = pizzas.stream().filter(p -> p.getId() == id).findFirst().orElse(null);
+    return Optional.ofNullable(pizza);
   }
 
   public static Pizza savePizza() {
@@ -141,8 +142,9 @@ public class RepositoryMockData {
     return addOns;
   }
 
-  public static AddOn getAddOnById(Integer id) {
-    return addOns.stream().filter(p -> p.getId() == id).findFirst().orElse(null);
+  public static Optional<AddOn> getAddOnById(Integer id) {
+    AddOn addon = addOns.stream().filter(p -> p.getId() == id).findFirst().orElse(null);
+    return Optional.ofNullable(addon);
   }
 
   public static AddOn saveAddon() {
@@ -180,8 +182,10 @@ public class RepositoryMockData {
   public static List<Order> getAllOrders() {
     return orders;
   }
-  public static Order getOrderById(Integer id) {
-    return orders.stream().filter(p -> p.getId() == id).findFirst().orElse(null);
+
+  public static Optional<Order> getOrderById(Integer id) {
+    Order order = orders.stream().filter(p -> p.getId() == id).findFirst().orElse(null);
+    return Optional.ofNullable(order);
   }
 
   public static Order saveOrder() {

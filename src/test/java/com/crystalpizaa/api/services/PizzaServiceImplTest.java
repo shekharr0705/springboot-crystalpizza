@@ -45,8 +45,9 @@ public class PizzaServiceImplTest {
   public void init() {
     initMocks(this);
     when(pizzaRepository.findAll()).thenReturn(RepositoryMockData.getAllPizza());
-    when(pizzaRepository.getOne(anyInt())).thenReturn(RepositoryMockData.getPizzaById(1));
+    when(pizzaRepository.findById(anyInt())).thenReturn(RepositoryMockData.getPizzaById(1));
     when(pizzaRepository.save(ArgumentMatchers.any())).thenReturn(RepositoryMockData.savePizza());
+
     doNothing().when(pizzaRepository).deleteById(anyInt());
   }
 

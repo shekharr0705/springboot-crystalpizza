@@ -8,6 +8,9 @@ import com.crystalpizaa.api.service.models.core.PizzaType;
 public class PizzaTranslator {
 
   public static Pizza ToServiceModel(com.crystalpizaa.api.dao.entities.Pizza daoObj) {
+    if(daoObj == null) {
+      return null;
+    }
     Pizza pizza = new Pizza();
     pizza.setId(daoObj.getId());
     pizza.setName(daoObj.getName());

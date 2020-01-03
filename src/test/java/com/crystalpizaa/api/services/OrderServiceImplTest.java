@@ -56,12 +56,13 @@ public class OrderServiceImplTest {
   public void init() {
     initMocks(this);
     when(orderRepository.findAll()).thenReturn(RepositoryMockData.getAllOrders());
-    when(orderRepository.getOne(anyInt())).thenReturn(RepositoryMockData.getOrderById(1));
+    when(orderRepository.findById(anyInt())).thenReturn(RepositoryMockData.getOrderById(1));
     when(orderRepository.save(ArgumentMatchers.any())).thenReturn(RepositoryMockData.saveOrder());
     doNothing().when(orderRepository).deleteById(anyInt());
 
-    when(pizzaRepository.getOne(anyInt())).thenReturn(RepositoryMockData.getPizzaById(1));
-    when(addOnRepository.getOne(anyInt())).thenReturn(RepositoryMockData.getAddOnById(1));
+    when(pizzaRepository.findById(anyInt())).thenReturn(RepositoryMockData.getPizzaById(1));
+    when(addOnRepository.findById(anyInt())).thenReturn(RepositoryMockData.getAddOnById(1));
+
     when(userRepository.getOne(anyInt())).thenReturn(RepositoryMockData.getUserById(1));
   }
 
