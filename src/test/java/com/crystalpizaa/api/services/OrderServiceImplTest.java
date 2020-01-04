@@ -63,7 +63,7 @@ public class OrderServiceImplTest {
     when(pizzaRepository.findById(anyInt())).thenReturn(RepositoryMockData.getPizzaById(1));
     when(addOnRepository.findById(anyInt())).thenReturn(RepositoryMockData.getAddOnById(1));
 
-    when(userRepository.getOne(anyInt())).thenReturn(RepositoryMockData.getUserById(1));
+    when(userRepository.getOne(anyInt())).thenReturn(RepositoryMockData.getUserById(1).orElse(null));
   }
 
   @Test

@@ -39,7 +39,7 @@ public class UserServiceImplTest {
   public void init() {
     initMocks(this);
     when(userRepository.findAll()).thenReturn(RepositoryMockData.getAllUsers());
-    when(userRepository.getOne(anyInt())).thenReturn(RepositoryMockData.getUserById(1));
+    when(userRepository.findById(anyInt())).thenReturn(RepositoryMockData.getUserById(1));
     when(userRepository.save(ArgumentMatchers.any())).thenReturn(RepositoryMockData.saveUser());
     doNothing().when(userRepository).deleteById(anyInt());
   }

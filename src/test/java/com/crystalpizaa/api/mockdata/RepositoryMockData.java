@@ -71,7 +71,7 @@ public class RepositoryMockData {
     order1.setId(1);
     order1.setOrderDate(LocalDateTime.now());
     order1.setAddress("Wakad Pune");
-    order1.setUser(getUserById(1));
+    order1.setUser(getUserById(1).orElse(null));
 
     OrderItem orderItem1 = new OrderItem();
     orderItem1.setQuantity(2);
@@ -93,7 +93,7 @@ public class RepositoryMockData {
     order2.setId(2);
     order2.setOrderDate(LocalDateTime.now());
     order2.setAddress("Viman nagar Pune");
-    order2.setUser(getUserById(1));
+    order2.setUser(getUserById(1).orElse(null));
 
     OrderItem orderItem3 = new OrderItem();
     orderItem3.setQuantity(3);
@@ -164,8 +164,9 @@ public class RepositoryMockData {
     return users;
   }
 
-  public static User getUserById(Integer id) {
-    return users.stream().filter(p -> p.getId() == id).findFirst().orElse(null);
+  public static Optional<User> getUserById(Integer id) {
+    User user=users.stream().filter(p -> p.getId() == id).findFirst().orElse(null);
+    return Optional.ofNullable(user);
   }
 
   public static User saveUser() {
@@ -193,7 +194,7 @@ public class RepositoryMockData {
     order.setId(3);
     order.setOrderDate(LocalDateTime.now());
     order.setAddress("Viman nagar Pune");
-    order.setUser(getUserById(1));
+    order.setUser(getUserById(1).orElse(null));
 
     OrderItem orderItem = new OrderItem();
     orderItem.setQuantity(3);
